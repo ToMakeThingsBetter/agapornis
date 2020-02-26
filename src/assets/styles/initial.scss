@@ -1,1 +1,23 @@
-@import "./normalize.scss"
+@import "./normalize.scss";
+
+/* font-color */
+// $font-red: #
+$font-black: #555555;
+
+/* background-color */
+$bg-main: #fafafa;
+
+/* border-color */
+$bd: #dcdcdc;
+
+/* border-radius */
+$br-main: 10px;
+
+/* border-width */
+$bw-main: 2px;
+
+/* z-index */
+$zl-1: 100;
+$zl-2: 200;
+$zl-3: 300;
+$zl-4: 400;
