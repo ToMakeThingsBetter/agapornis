@@ -19,14 +19,19 @@
               <div id="login-phone">
                 <label for="phone">Mobile Phone</label>
               </div>
-              <input type="text" name="phone" id="phone" />
+              <input type="text" name="phone" id="phone" autocomplete="off" />
             </div>
             <div id="login-form-item">
               <div id="login-password">
                 <label for="password">Password</label>
                 <span>Froget your password ?</span>
               </div>
-              <input type="password" name="password" id="password" />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                autocomplete="off"
+              />
             </div>
             <div id="login-form-item">
               <div id="extra-box">
@@ -34,9 +39,16 @@
                   v-model="ifAutomatic"
                   id="ifAutomatic"
                 ></el-checkbox>
-                <!-- <input type="checkbox" name="ifAutomatic" id="ifAutomatic" /> -->
                 <span id="ifAutomatic-word">Remember this device</span>
               </div>
+            </div>
+            <div id="signIn-button">
+              <span>Sign in</span>
+            </div>
+            <div id="question-link">
+              <p>
+                If you have any quertions ? <span>Terms and conditions</span>
+              </p>
             </div>
           </form>
         </div>
@@ -72,7 +84,7 @@ export default {
   justify-content: center;
   #container-box {
     width: 404px;
-    height: 504px;
+    height: 530px;
     position: relative;
     z-index: $zl-1;
     &:after {
@@ -171,6 +183,44 @@ export default {
               letter-spacing: 1.2px;
               padding-left: 8px;
             }
+          }
+        }
+      }
+      #signIn-button {
+        margin: 15px 0;
+        span {
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+          height: 36px;
+          line-height: 35px;
+          background-color: $font-red;
+          border: $bw-main solid #e6a5a4;
+          border-radius: $br-5;
+          color: $bg-main;
+          text-align: center;
+          font-size: 12px;
+          letter-spacing: 1.2px;
+          cursor: pointer;
+          opacity: 1;
+          transition: opacity 0.1s linear;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+      #question-link {
+        padding: 5px 0;
+        p {
+          font-size: 12px;
+          color: $font-grey;
+          padding: 4px 0;
+          letter-spacing: 0.6px;
+          span {
+            color: $font-yellow;
+            font-size: 11px;
+            letter-spacing: 0.55px;
+            border-bottom: 1px dotted $font-yellow;
           }
         }
       }
