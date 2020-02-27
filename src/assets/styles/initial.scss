@@ -1,8 +1,12 @@
 @import "./normalize.scss";
 
+/* ps字符间距计算方法：real_letter_spacing = font / 1000  *  spacing */
+
 /* font-color */
-// $font-red: #
+$font-red: #ee726f;
 $font-black: #555555;
+$font-grey: #8e8e8e;
+$font-yellow: #fcd268;
 
 /* background-color */
 $bg-main: #fafafa;
@@ -12,6 +16,7 @@ $bd: #dcdcdc;
 
 /* border-radius */
 $br-main: 10px;
+$br-5: 5px;
 
 /* border-width */
 $bw-main: 2px;
@@ -21,3 +26,24 @@ $zl-1: 100;
 $zl-2: 200;
 $zl-3: 300;
 $zl-4: 400;
+
+/* login checkbox style */
+#ifAutomatic .el-checkbox__input {
+  height: 17px;
+  &.is-checked .el-checkbox__inner {
+    background-color: $font-grey;
+    border-color: $font-grey;
+  }
+}
+#ifAutomatic .el-checkbox__inner {
+  width: 15px;
+  height: 15px;
+  border: $bw-main solid $font-grey;
+  border-radius: 3px;
+  &:after {
+    left: 3px;
+  }
+  &:hover {
+    border-color: $font-grey;
+  }
+}
