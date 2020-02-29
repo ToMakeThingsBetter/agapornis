@@ -3,9 +3,11 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import login from "./login.js";
+
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  // 模块化
+  modules: {
+    login
+  }
 });

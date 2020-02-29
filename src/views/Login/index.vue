@@ -1,5 +1,9 @@
 <template>
   <div id="login">
+    <div
+      id="login-background"
+      :style="{ background: 'url(' + require('@pic/bc.svg') + ') repeat' }"
+    ></div>
     <div id="container-box">
       <div class="login-pic" id="left-pic">
         <img src="@pic/loginLeft.png" alt="" />
@@ -11,7 +15,10 @@
         </div>
         <div id="login-word">
           <strong>Welcome back to Agapornis.</strong>
-          <p>New here ? <span>Create an account</span></p>
+          <p>
+            New here ?
+            <span @click="OpenSignupDialog"> Create an account</span>
+          </p>
         </div>
         <div id="login-form">
           <form>
@@ -63,14 +70,23 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import { ref } from "@vue/composition-api";
+import { ref, computed } from "@vue/composition-api";
 
 export default {
   name: "Login",
-  setup() {
+  // props必须在root之前，否则root不起作用
+  setup(props, { root }) {
     const ifAutomatic = ref(false);
+    // 监听store的值 =》 注意模块化后的写法
+    const signup_button = computed(() => root.$store.state.login.SIGNUP_BUTTON);
+    // 更改store的值 =》 mutations中的方法
+    const OpenSignupDialog = () => {
+      root.$store.commit("SET_SIGNUP_BUTTON");
+    };
     return {
-      ifAutomatic
+      ifAutomatic,
+      signup_button,
+      OpenSignupDialog
     };
   }
 };
@@ -82,6 +98,16 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  #login-background {
+    position: absolute;
+    width: calc(100% + 500px);
+    height: 100%;
+    top: 0;
+    left: 0;
+    animation: scrollBackground 12s linear infinite;
+  }
   #container-box {
     width: 404px;
     height: 530px;
@@ -90,12 +116,13 @@ export default {
     &:after {
       content: "";
       position: absolute;
-      bottom: -5px;
+      bottom: -4px;
       display: block;
-      width: 942px;
-      height: 5px;
+      width: 560px;
+      height: 4px;
       background-color: $bd;
-      left: -272px;
+      left: -80px;
+      opacity: 0.8;
     }
     #main-content {
       width: 100%;
@@ -135,6 +162,7 @@ export default {
             color: $font-yellow;
             font-size: 11px;
             border-bottom: 1px dotted $font-yellow;
+            cursor: pointer;
           }
         }
       }
@@ -160,6 +188,7 @@ export default {
               span {
                 color: $font-yellow;
                 font-size: 11px;
+                cursor: pointer;
               }
             }
             input {
@@ -221,6 +250,7 @@ export default {
             font-size: 11px;
             letter-spacing: 0.55px;
             border-bottom: 1px dotted $font-yellow;
+            cursor: pointer;
           }
         }
       }
@@ -272,6 +302,14 @@ export default {
       width: 91px;
       height: 217px;
     }
+  }
+}
+@keyframes scrollBackground {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-500px);
   }
 }
 </style>
