@@ -7,6 +7,7 @@ $font-red: #ee726f;
 $font-black: #555555;
 $font-grey: #8e8e8e;
 $font-yellow: #fcd268;
+$font-white: #fff;
 
 /* background-color */
 $bg-main: #fafafa;
@@ -45,5 +46,41 @@ $zl-4: 400;
   }
   &:hover {
     border-color: $font-grey;
+  }
+}
+
+/* sign dialog style */
+#signup {
+  .el-dialog {
+    width: 1100px !important;
+    height: 600px;
+    margin-top: calc(50vh - 300px) !important;
+    margin-bottom: 0;
+    border: $bw-main solid $bd;
+    border-radius: 10px;
+    background-color: $bg-main;
+    overflow: hidden;
+    .el-dialog__header {
+      display: none;
+    }
+    .el-dialog__body {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+  }
+}
+.el-popover.popover {
+  padding: 30px;
+  border-radius: 7px;
+  .content {
+    font-size: 14px;
+    letter-spacing: 1.05px;
+    .red-font {
+      color: $font-red;
+    }
+    .yellow-font {
+      color: $font-yellow;
+    }
   }
 }

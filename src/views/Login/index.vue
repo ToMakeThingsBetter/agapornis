@@ -43,10 +43,10 @@
             <div id="login-form-item">
               <div id="extra-box">
                 <el-checkbox
-                  v-model="ifAutomatic"
-                  id="ifAutomatic"
+                  v-model="if_automatic"
+                  id="if-automatic"
                 ></el-checkbox>
-                <span id="ifAutomatic-word">Remember this device</span>
+                <span id="if-automatic-word">Remember this device</span>
               </div>
             </div>
             <div id="signIn-button">
@@ -64,6 +64,7 @@
         <img src="@pic/loginRight.png" alt="" />
       </div>
     </div>
+    <SIGNUP></SIGNUP>
   </div>
 </template>
 
@@ -71,20 +72,26 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import { ref, computed } from "@vue/composition-api";
+import SIGNUP from "@_components/Login/Signup";
 
 export default {
   name: "Login",
+  components: { SIGNUP },
   // props必须在root之前，否则root不起作用
   setup(props, { root }) {
-    const ifAutomatic = ref(false);
+    const if_automatic = ref(false);
     // 监听store的值 =》 注意模块化后的写法
     const signup_button = computed(() => root.$store.state.login.SIGNUP_BUTTON);
     // 更改store的值 =》 mutations中的方法
     const OpenSignupDialog = () => {
       root.$store.commit("SET_SIGNUP_BUTTON");
+      // 由于popover组件初始化显示错误，故将状态值放入vuex中,通过延迟更改解决初始化
+      setTimeout(() => {
+        root.$store.commit("SET_SHOW_POPOVER");
+      }, 1000);
     };
     return {
-      ifAutomatic,
+      if_automatic,
       signup_button,
       OpenSignupDialog
     };
@@ -202,12 +209,12 @@ export default {
               letter-spacing: 0.825px;
               color: $font-grey;
               box-sizing: border-box;
-              &#ifAutomatic {
+              &#if-automatic {
                 width: 15px;
                 height: 15px;
               }
             }
-            #ifAutomatic-word {
+            #if-automatic-word {
               color: $font-black;
               letter-spacing: 1.2px;
               padding-left: 8px;
