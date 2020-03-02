@@ -87,7 +87,7 @@ export default {
       root.$store.commit("SET_SIGNUP_BUTTON");
       // 由于popover组件初始化显示错误，故将状态值放入vuex中,通过延迟更改解决初始化
       setTimeout(() => {
-        root.$store.commit("SET_SHOW_POPOVER");
+        root.$store.commit("SET_SHOW_POPOVER", true);
       }, 1000);
     };
     return {

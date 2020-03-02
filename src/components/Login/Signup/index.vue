@@ -32,8 +32,8 @@
               <span>gapornis</span>
             </div>
             <div id="content">
-              <ul>
-                <li v-for="item in signList" :key="item.num" class="active">
+              <ul id="step">
+                <li v-for="item in signList" :key="item.num">
                   <span>{{ item.num }}</span>
                   <p>{{ item.content }}</p>
                 </li>
@@ -90,7 +90,12 @@
                 popper-class="popover"
                 :value="showPopover"
               >
-                <span class="next-button" slot="reference">Next</span>
+                <span
+                  class="next-button"
+                  slot="reference"
+                  @click="ToNextPart(1)"
+                  >Next</span
+                >
                 <span class="content"
                   >Members need to
                   <span class="red-font"> pay corresponding</span>
@@ -100,7 +105,43 @@
               </el-popover>
             </div>
           </div>
-          <div id="second-form"></div>
+          <div id="second-form">
+            <div class="header">
+              <p>Having troubles ?</p>
+              <span>Get Help</span>
+            </div>
+            <div class="content-form">
+              <p class="content-title">Please select your birth addres</p>
+              <p class="content-word">
+                For better service, we need to decide part of the plan according
+                <br />to your birth address.
+              </p>
+              <div class="choice-button-sex">
+                <div
+                  class="male-button"
+                  @click="MaleButtonStatus(0)"
+                  :class="[signData.sex === 0 ? 'active' : '']"
+                >
+                  <i class="el-icon-male"></i>
+                  <span>I am an adult male</span>
+                </div>
+                <div
+                  class="female-button"
+                  @click="MaleButtonStatus(1)"
+                  :class="[signData.sex === 1 ? 'active' : '']"
+                >
+                  <i class="el-icon-female"></i>
+                  <span>I am an adult female</span>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-button">
+              <span class="exit-button" @click="ToLastPart(2)"
+                >Back to last step</span
+              >
+              <span class="next-button" @click="ToNextPart(2)">Next</span>
+            </div>
+          </div>
           <div id="third-form"></div>
           <div id="fourth-form"></div>
           <div id="fifth-form"></div>
@@ -118,7 +159,7 @@ export default {
   name: "Signup",
   setup(props, { root }) {
     /* 常量定义 */
-    const nouser = ref(false);
+    const MoveHeight = ref(-596);
     const signList = reactive([
       {
         name: "firstPage",
@@ -173,19 +214,66 @@ export default {
     /* 方法定义 =》 更改store的值 =》 mutations中的方法 */
     const CloseSignupDialog = () => {
       root.$store.commit("SET_SIGNUP_BUTTON");
-      root.$store.commit("SET_SHOW_POPOVER");
+      root.$store.commit("SET_SHOW_POPOVER", false);
     };
+    /* sex 选择按钮 */
     const MaleButtonStatus = index => {
       signData.sex = index;
     };
+    /* 下一步按钮控制 */
+    const ToNextPart = index => {
+      if (index === 1) {
+        let leftContentPart = document.getElementById("content-part");
+        let leftStepPart = document.getElementById("step-part");
+        leftContentPart.style.opacity = "0";
+        leftStepPart.style.opacity = "1";
+        leftContentPart.className = "activeNext";
+        root.$store.commit("SET_SHOW_POPOVER", false);
+      }
+      let firstPart = document.getElementById("first-form");
+      /* 控制step样式状态 */
+      let stepPart = document.getElementById("step").childNodes;
+      if (index > 1) {
+        stepPart[index - 2].className = "";
+      }
+      stepPart[index - 1].className = "active";
+      let move = MoveHeight.value * index;
+      firstPart.style.transition = "all 0.3s ease";
+      firstPart.style.marginTop = move + "px";
+    };
+    /* 返回按钮控制 */
+    const ToLastPart = index => {
+      if (index === 2) {
+        let leftContentPart = document.getElementById("content-part");
+        let leftStepPart = document.getElementById("step-part");
+        leftContentPart.style.opacity = "1";
+        leftStepPart.style.opacity = "0";
+        leftContentPart.className = "activeBack";
+        setTimeout(() => {
+          root.$store.commit("SET_SHOW_POPOVER", true);
+        }, 1000);
+      }
+      let firstPart = document.getElementById("first-form");
+      /* 控制step样式状态 */
+      let stepPart = document.getElementById("step").childNodes;
+      if (index > 1) {
+        stepPart[index - 2].className = "active";
+      }
+      stepPart[index - 1].className = "";
+      let move = MoveHeight.value * (index - 2);
+      firstPart.style.transition = "all 0.3s ease";
+      firstPart.style.marginTop = move + "px";
+    };
     return {
-      nouser,
+      MoveHeight,
       signList,
       signData,
       signup_button,
       showPopover,
       CloseSignupDialog,
-      MaleButtonStatus
+      MaleButtonStatus,
+      ToNextPart,
+      ToLastPart
     };
   }
 };
@@ -256,6 +344,14 @@ export default {
             padding: 8px 0;
           }
         }
+        &.activeNext {
+          animation: activeNext 1s ease;
+          animation-fill-mode: forwards;
+        }
+        &.activeBack {
+          animation: activeBack 1s ease;
+          animation-fill-mode: forwards;
+        }
       }
       #step-part {
         #content {
@@ -304,93 +400,125 @@ export default {
       width: 720px;
       box-sizing: border-box;
       overflow: hidden;
-      padding: 50px 50px 50px 90px;
-      .header {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        p {
-          font-size: 14px;
-          letter-spacing: 1.05px;
-          color: $font-red;
-        }
-        span {
-          color: $font-yellow;
-          font-size: 13px;
-          text-decoration: underline;
-          padding-left: 10px;
-          cursor: pointer;
-          letter-spacing: 0.975px;
-        }
-      }
-      .content-form {
-        padding-top: 58px;
-        .content-title {
-          font-size: 20px;
-          letter-spacing: 1.5px;
-          color: $font-black;
-          padding: 20px 0;
-        }
-        .content-word {
-          font-size: 14px;
-          letter-spacing: 1.05px;
-          color: $font-grey;
-          line-height: 24px;
-        }
-        .choice-button-sex {
-          padding: 20px 0;
-          > div {
-            width: 220px;
-            height: 46px;
-            border: $bw-main solid $bd;
-            line-height: 50px;
-            padding: 0 40px;
-            border-radius: 7px;
-            margin: 20px 0;
+      > div {
+        height: 496px;
+        padding: 50px 50px 50px 90px;
+        .header {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          p {
+            font-size: 14px;
+            letter-spacing: 1.05px;
+            color: $font-red;
+          }
+          span {
+            color: $font-yellow;
+            font-size: 13px;
+            text-decoration: underline;
+            padding-left: 10px;
             cursor: pointer;
-            i {
-              font-size: 16px;
-              font-weight: bold;
-              color: $font-red;
-            }
-            span {
-              padding-left: 20px;
-              font-size: 14px;
-              color: $font-grey;
-              letter-spacing: 1.05px;
-            }
-            &.active {
-              border-color: $font-red;
+            letter-spacing: 0.975px;
+          }
+        }
+        .content-form {
+          padding-top: 58px;
+          .content-title {
+            font-size: 20px;
+            letter-spacing: 1.5px;
+            color: $font-black;
+            padding: 20px 0;
+          }
+          .content-word {
+            font-size: 14px;
+            letter-spacing: 1.05px;
+            color: $font-grey;
+            line-height: 24px;
+          }
+          .choice-button-sex {
+            padding: 20px 0;
+            > div {
+              width: 220px;
+              height: 46px;
+              border: $bw-main solid $bd;
+              line-height: 50px;
+              padding: 0 40px;
+              border-radius: 7px;
+              margin: 20px 0;
+              cursor: pointer;
+              i {
+                font-size: 16px;
+                font-weight: bold;
+                color: $font-red;
+              }
+              span {
+                padding-left: 20px;
+                font-size: 14px;
+                color: $font-grey;
+                letter-spacing: 1.05px;
+              }
+              &.active {
+                border-color: $font-red;
+              }
             }
           }
         }
-      }
-      .bottom-button {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 47px;
-        span {
-          cursor: pointer;
-          font-size: 14px;
-          letter-spacing: 1.05px;
-          line-height: 44px;
-          &.exit-button {
-            color: $font-grey;
-          }
-          .next-button {
-            display: block;
-            width: 180px;
-            height: 40px;
-            border: $bw-main solid $bd;
-            border-radius: 7px;
-            background-color: $font-red;
-            color: $font-white;
-            text-align: center;
+        .bottom-button {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-top: 47px;
+          span {
+            cursor: pointer;
+            font-size: 14px;
+            letter-spacing: 1.05px;
+            line-height: 44px;
+            &.exit-button {
+              color: $font-grey;
+            }
+            &.next-button,
+            .next-button {
+              display: block;
+              width: 180px;
+              height: 40px;
+              border: $bw-main solid $bd;
+              border-radius: 7px;
+              background-color: $font-red;
+              color: $font-white;
+              text-align: center;
+            }
           }
         }
       }
     }
+  }
+}
+@keyframes activeNext {
+  0% {
+    margin-top: 0;
+  }
+  70% {
+    margin-top: -696px;
+  }
+  90% {
+    margin-top: -559px;
+  }
+  100% {
+    margin-top: -596px;
+  }
+}
+@keyframes activeBack {
+  0% {
+    margin-top: -596px;
+  }
+  70% {
+    margin-top: 80px;
+  }
+  90% {
+    margin-top: -30px;
+  }
+  100% {
+    margin-top: 0;
   }
 }
 </style>

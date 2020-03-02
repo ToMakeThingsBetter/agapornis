@@ -11,8 +11,8 @@ const login = {
     SET_SIGNUP_BUTTON: state => {
       state.SIGNUP_BUTTON = !state.SIGNUP_BUTTON;
     },
-    SET_SHOW_POPOVER: state => {
-      state.SHOW_POPOVER = !state.SHOW_POPOVER;
+    SET_SHOW_POPOVER: (state, value) => {
+      state.SHOW_POPOVER = value;
     }
   },
   actions: {}
