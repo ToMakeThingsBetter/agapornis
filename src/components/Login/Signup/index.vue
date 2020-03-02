@@ -213,8 +213,8 @@ export default {
     const showPopover = computed(() => root.$store.state.login.SHOW_POPOVER);
     /* 方法定义 =》 更改store的值 =》 mutations中的方法 */
     const CloseSignupDialog = () => {
-      root.$store.commit("SET_SIGNUP_BUTTON");
-      root.$store.commit("SET_SHOW_POPOVER", false);
+      root.$store.commit("login/SET_SIGNUP_BUTTON");
+      root.$store.commit("login/SET_SHOW_POPOVER", false);
     };
     /* sex 选择按钮 */
     const MaleButtonStatus = index => {
@@ -228,7 +228,7 @@ export default {
         leftContentPart.style.opacity = "0";
         leftStepPart.style.opacity = "1";
         leftContentPart.className = "activeNext";
-        root.$store.commit("SET_SHOW_POPOVER", false);
+        root.$store.commit("login/SET_SHOW_POPOVER", false);
       }
       let firstPart = document.getElementById("first-form");
       /* 控制step样式状态 */
@@ -250,7 +250,7 @@ export default {
         leftStepPart.style.opacity = "0";
         leftContentPart.className = "activeBack";
         setTimeout(() => {
-          root.$store.commit("SET_SHOW_POPOVER", true);
+          root.$store.commit("login/SET_SHOW_POPOVER", true);
         }, 1000);
       }
       let firstPart = document.getElementById("first-form");
