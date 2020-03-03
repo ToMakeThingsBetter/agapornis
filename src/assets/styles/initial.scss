@@ -69,6 +69,37 @@ $zl-4: 400;
       padding: 0;
     }
   }
+  .address-select {
+    .el-input__inner {
+      width: 400px;
+      height: 46px;
+      border-radius: 5px;
+      border: $bw-main solid $bd;
+      color: $font-grey;
+      letter-spacing: 1.3px;
+      font-size: 13px;
+      line-height: 42px;
+    }
+  }
+  .extra-input {
+    .el-input--suffix {
+      width: 400px;
+      .el-input__inner {
+        height: 46px;
+        line-height: 42px;
+        border-radius: 5px;
+        border: $bw-main solid $bd;
+        color: $font-grey;
+        letter-spacing: 1.3px;
+        font-size: 13px;
+      }
+      .el-input__suffix {
+        .el-input__icon {
+          line-height: 48px;
+        }
+      }
+    }
+  }
 }
 .el-popover.popover {
   padding: 30px;
@@ -81,6 +112,16 @@ $zl-4: 400;
     }
     .yellow-font {
       color: $font-yellow;
+    }
+  }
+}
+.el-select-dropdown.form-select {
+  .el-select-dropdown__item {
+    span {
+      letter-spacing: 1.3px;
+    }
+    &.selected {
+      color: $font-red;
     }
   }
 }

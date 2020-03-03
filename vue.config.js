@@ -27,8 +27,9 @@ module.exports = {
     config.resolve = {
       extensions: ['.js', '.json', '.vue', 'png'],
       alias: {
-        '@pic': path.resolve(__dirname, './src/assets/pictures'),
+        '@_pic': path.resolve(__dirname, './src/assets/pictures'),
         '@_components': path.resolve(__dirname, './src/components'),
+        '@_utils': path.resolve(__dirname, './src/utils')
       }
     }
   },

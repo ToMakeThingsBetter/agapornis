@@ -8,7 +8,7 @@
         <div id="left-part">
           <div id="content-part">
             <div id="logo">
-              <img src="@pic/signLogo.png" alt="" />
+              <img src="@_pic/signLogo.png" alt="" />
               <span>gapornis</span>
             </div>
             <div id="content">
@@ -22,13 +22,13 @@
               id="bottom-bgi"
               class="signBottom-first"
               :style="{
-                background: 'url(' + require('@pic/signBottom-first.png') + ')'
+                background: 'url(' + require('@_pic/signBottom-first.png') + ')'
               }"
             ></div>
           </div>
           <div id="step-part">
             <div id="logo">
-              <img src="@pic/signLogo.png" alt="" />
+              <img src="@_pic/signLogo.png" alt="" />
               <span>gapornis</span>
             </div>
             <div id="content">
@@ -43,7 +43,7 @@
               id="bottom-bgi"
               class="signBottom-other"
               :style="{
-                background: 'url(' + require('@pic/signBottom-other.png') + ')'
+                background: 'url(' + require('@_pic/signBottom-other.png') + ')'
               }"
             ></div>
           </div>
@@ -116,22 +116,39 @@
                 For better service, we need to decide part of the plan according
                 <br />to your birth address.
               </p>
-              <div class="choice-button-sex">
-                <div
-                  class="male-button"
-                  @click="MaleButtonStatus(0)"
-                  :class="[signData.sex === 0 ? 'active' : '']"
-                >
-                  <i class="el-icon-male"></i>
-                  <span>I am an adult male</span>
+              <div class="second-form-content">
+                <div class="address-select">
+                  <el-select
+                    v-model="signData.birthPlace"
+                    placeholder="Select your birth addres"
+                    popper-class="form-select"
+                  >
+                    <el-option
+                      v-for="item in citys"
+                      :key="item.value"
+                      :label="item.value"
+                      :value="item.value"
+                    >
+                      <span style="float:left">{{ item.label }}</span>
+                      <span style="float:right; color:#8e8e8e; font-size:13px">
+                        {{ item.value }}
+                      </span>
+                    </el-option>
+                  </el-select>
                 </div>
-                <div
-                  class="female-button"
-                  @click="MaleButtonStatus(1)"
-                  :class="[signData.sex === 1 ? 'active' : '']"
-                >
-                  <i class="el-icon-female"></i>
-                  <span>I am an adult female</span>
+                <div class="extra-input">
+                  <p>
+                    Extra supplement
+                    <span>
+                      More detailed address information is recommended
+                    </span>
+                  </p>
+                  <el-input
+                    placeholder="Clearly address information"
+                    v-model="signData.clearAddress"
+                    clearable
+                  >
+                  </el-input>
                 </div>
               </div>
             </div>
@@ -155,6 +172,7 @@
 
 <script>
 import { ref, reactive, computed } from "@vue/composition-api";
+import city from "@_utils/address";
 export default {
   name: "Signup",
   setup(props, { root }) {
@@ -197,6 +215,7 @@ export default {
       sex: 2,
       birthPlace: "",
       birthday: "",
+      clearAddress: "",
       ageRange: "",
       nickname: "",
       realFirstname: "",
@@ -208,6 +227,7 @@ export default {
       password: "",
       code: ""
     });
+    const citys = reactive(city);
     /* 监听store的值 =》 注意模块化后的写法 */
     const signup_button = computed(() => root.$store.state.login.SIGNUP_BUTTON);
     const showPopover = computed(() => root.$store.state.login.SHOW_POPOVER);
@@ -268,6 +288,7 @@ export default {
       MoveHeight,
       signList,
       signData,
+      citys,
       signup_button,
       showPopover,
       CloseSignupDialog,
@@ -459,6 +480,23 @@ export default {
               }
               &.active {
                 border-color: $font-red;
+              }
+            }
+          }
+          .second-form-content {
+            margin: 20px 0;
+            padding: 20px 0;
+            .extra-input {
+              p {
+                font-size: 13px;
+                color: #c2c2c2;
+                letter-spacing: 1.3px;
+                padding: 25px 0 15px 3px;
+                span {
+                  font-size: 12px;
+                  color: $font-yellow;
+                  letter-spacing: 1.1px;
+                }
               }
             }
           }

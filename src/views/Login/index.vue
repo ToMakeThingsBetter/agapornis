@@ -2,15 +2,15 @@
   <div id="login">
     <div
       id="login-background"
-      :style="{ background: 'url(' + require('@pic/bc.svg') + ') repeat' }"
+      :style="{ background: 'url(' + require('@_pic/bc.svg') + ') repeat' }"
     ></div>
     <div id="container-box">
       <div class="login-pic" id="left-pic">
-        <img src="@pic/loginLeft.png" alt="" />
+        <img src="@_pic/loginLeft.png" alt="" />
       </div>
       <div id="main-content">
         <div id="logo">
-          <img src="@pic/loginLogo.png" alt="" />
+          <img src="@_pic/loginLogo.png" alt="" />
           <span id="logo-title">gapornis</span>
         </div>
         <div id="login-word">
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="login-pic" id="right-pic">
-        <img src="@pic/loginRight.png" alt="" />
+        <img src="@_pic/loginRight.png" alt="" />
       </div>
     </div>
     <SIGNUP></SIGNUP>
