@@ -69,7 +69,7 @@ $zl-4: 400;
       padding: 0;
     }
   }
-  .address-select {
+  .address-select,.birthday-select {
     .el-input__inner {
       width: 400px;
       height: 46px;
@@ -100,6 +100,25 @@ $zl-4: 400;
       }
     }
   }
+  .birthday-select {
+    .el-input__inner {
+      padding-left: 40px;
+    }
+    .el-icon-date {
+      line-height: 46px;
+      width: 40px;
+    }
+  }
+  .el-slider {
+    width: 388px;
+    padding-left: 8px;
+    .el-slider__bar {
+      background-color: $font-yellow;
+    }
+    .el-slider__button {
+      border-color: $font-yellow;
+    }
+  }
 }
 .el-popover.popover {
   padding: 30px;
@@ -123,5 +142,30 @@ $zl-4: 400;
     &.selected {
       color: $font-red;
     }
+  }
+}
+.el-date-picker.birthday-select-popper {
+  width: 330px;
+  .el-picker-panel__content {
+    width: 300px;
+    .el-month-table td .cell:hover,
+    .el-month-table td.today .cell,
+    .el-month-table td.current:not(.disabled) .cell,
+    .el-year-table td.today .cell,
+    .el-year-table td .cell:hover,
+    .el-year-table td.current:not(.disabled) .cell {
+      color: $font-red;
+    }
+  }
+  .el-picker-panel__body {
+    .el-date-picker__header-label.active,
+    .el-date-picker__header-label:hover,
+    .el-picker-panel__icon-btn:hover {
+      color: $font-red;
+    }
+  }
+  .el-month-table, .el-year-table {
+    font-size: 14px;
+    letter-spacing: 1.05px;
   }
 }

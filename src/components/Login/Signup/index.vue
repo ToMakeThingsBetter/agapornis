@@ -159,7 +159,50 @@
               <span class="next-button" @click="ToNextPart(2)">Next</span>
             </div>
           </div>
-          <div id="third-form"></div>
+          <div id="third-form">
+            <div class="header">
+              <p>Having troubles ?</p>
+              <span>Get Help</span>
+            </div>
+            <div class="content-form">
+              <p class="content-title">Please finish your information</p>
+              <p class="content-word">
+                For better service, we need to decide part of the plan according
+                <br />to your information.
+              </p>
+              <div class="third-form-content">
+                <div class="birthday-select">
+                  <el-date-picker
+                    v-model="signData.birthday"
+                    type="month"
+                    placeholder="Please choice your birthday"
+                    format="yyyy.MM"
+                    popper-class="birthday-select-popper"
+                    :clearable="false"
+                  >
+                  </el-date-picker>
+                </div>
+                <div class="friends-year-range">
+                  <p>Please choose your ideal age range for making friends.</p>
+                  <el-slider
+                    v-model="signData.ageRange"
+                    range
+                    show-stops
+                    :min="-5"
+                    :max="5"
+                    tooltip-class="age-range"
+                  >
+                  </el-slider>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-button">
+              <span class="exit-button" @click="ToLastPart(3)"
+                >Back to last step</span
+              >
+              <span class="next-button" @click="ToNextPart(3)">Next</span>
+            </div>
+          </div>
           <div id="fourth-form"></div>
           <div id="fifth-form"></div>
           <div id="sixth-form"></div>
@@ -216,7 +259,7 @@ export default {
       birthPlace: "",
       birthday: "",
       clearAddress: "",
-      ageRange: "",
+      ageRange: 0,
       nickname: "",
       realFirstname: "",
       hobby: "",
@@ -485,7 +528,7 @@ export default {
           }
           .second-form-content {
             margin: 20px 0;
-            padding: 20px 0;
+            padding: 10px 0 30px;
             .extra-input {
               p {
                 font-size: 13px;
@@ -496,6 +539,21 @@ export default {
                   font-size: 12px;
                   color: $font-yellow;
                   letter-spacing: 1.1px;
+                }
+              }
+            }
+          }
+          .third-form-content {
+            padding: 20px 0;
+            margin: 20px 0;
+            > div {
+              &.friends-year-range {
+                margin-top: 20px;
+                p {
+                  padding: 18px 0 10px 6px;
+                  font-size: 13px;
+                  color: $font-grey;
+                  letter-spacing: 1.3px;
                 }
               }
             }
