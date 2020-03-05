@@ -60,7 +60,7 @@
                 For better service, we need to decide part of the plan according
                 <br />to your gender.
               </p>
-              <div class="choice-button-sex">
+              <div class="choose-button-sex">
                 <div
                   class="male-button"
                   @click="MaleButtonStatus(0)"
@@ -175,7 +175,7 @@
                   <el-date-picker
                     v-model="signData.birthday"
                     type="month"
-                    placeholder="Please choice your birthday"
+                    placeholder="Please choose your birthday"
                     format="yyyy.MM"
                     popper-class="birthday-select-popper"
                     :clearable="false"
@@ -191,6 +191,7 @@
                     :min="-5"
                     :max="5"
                     tooltip-class="age-range"
+                    :marks="marks"
                   >
                   </el-slider>
                 </div>
@@ -203,7 +204,65 @@
               <span class="next-button" @click="ToNextPart(3)">Next</span>
             </div>
           </div>
-          <div id="fourth-form"></div>
+          <div id="fourth-form">
+            <div class="header">
+              <p>Having troubles ?</p>
+              <span>Get Help</span>
+            </div>
+            <div class="content-form">
+              <p class="content-title">
+                Please finish your account information
+              </p>
+              <p class="content-word">
+                For better service, we need to decide part of the plan according
+                <br />to your account information.
+              </p>
+              <div class="fourth-form-content">
+                <div class="nickname-input">
+                  <el-input
+                    placeholder="Input your nickname and add '_' with your first name"
+                    v-model="signData.nickname"
+                    clearable
+                  >
+                  </el-input>
+                </div>
+                <div class="hobby-select">
+                  <p>
+                    Please choose one mainly hobby to match your friends.
+                  </p>
+                  <el-select
+                    v-model="signData.hobbies"
+                    placeholder="Please choose your mainly hobby"
+                    popper-class="hobby-select-class"
+                  >
+                    <el-option-group
+                      v-for="hobby in hobbies"
+                      :key="hobby.label"
+                      :label="hobby.label"
+                    >
+                      <el-option
+                        v-for="item in hobby.options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                        <span style="float:left">{{ item.label }}</span>
+                        <span style="float:right;color:#8e8e8e;font-size:13px">
+                          {{ item.value }}
+                        </span>
+                      </el-option>
+                    </el-option-group>
+                  </el-select>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-button">
+              <span class="exit-button" @click="ToLastPart(4)"
+                >Back to last step</span
+              >
+              <span class="next-button" @click="ToNextPart(4)">Next</span>
+            </div>
+          </div>
           <div id="fifth-form"></div>
           <div id="sixth-form"></div>
           <div id="seventh-form"></div>
@@ -216,6 +275,7 @@
 <script>
 import { ref, reactive, computed } from "@vue/composition-api";
 import city from "@_utils/address";
+import hobby from "@_utils/hobby";
 export default {
   name: "Signup",
   setup(props, { root }) {
@@ -259,10 +319,10 @@ export default {
       birthPlace: "",
       birthday: "",
       clearAddress: "",
-      ageRange: 0,
+      ageRange: [-2, 2],
       nickname: "",
       realFirstname: "",
-      hobby: "",
+      hobbies: [],
       pics: "",
       otherAccountType: "",
       otherAccount: "",
@@ -270,7 +330,21 @@ export default {
       password: "",
       code: ""
     });
+    const marks = reactive({
+      "-5": "-5",
+      "-4": "-4",
+      "-3": "-3",
+      "-2": "-2",
+      "-1": "-1",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    });
     const citys = reactive(city);
+    const hobbies = reactive(hobby);
     /* 监听store的值 =》 注意模块化后的写法 */
     const signup_button = computed(() => root.$store.state.login.SIGNUP_BUTTON);
     const showPopover = computed(() => root.$store.state.login.SHOW_POPOVER);
@@ -331,7 +405,9 @@ export default {
       MoveHeight,
       signList,
       signData,
+      marks,
       citys,
+      hobbies,
       signup_button,
       showPopover,
       CloseSignupDialog,
@@ -499,7 +575,7 @@ export default {
             color: $font-grey;
             line-height: 24px;
           }
-          .choice-button-sex {
+          .choose-button-sex {
             padding: 20px 0;
             > div {
               width: 220px;
@@ -549,6 +625,21 @@ export default {
             > div {
               &.friends-year-range {
                 margin-top: 20px;
+                p {
+                  padding: 18px 0 10px 6px;
+                  font-size: 13px;
+                  color: $font-grey;
+                  letter-spacing: 1.3px;
+                }
+              }
+            }
+          }
+          .fourth-form-content {
+            padding: 20px 0;
+            margin: 20px 0;
+            > div {
+              &.hobby-select {
+                margin-top: 10px;
                 p {
                   padding: 18px 0 10px 6px;
                   font-size: 13px;
