@@ -3,7 +3,11 @@
        此时需要去除 .sync 修饰符，同时监听 Dialog 的 open 和 close 事件，
        在事件回调中执行 Vuex 中对应的 mutation 更新 visible 属性绑定的变量的值。 -->
   <div id="signup">
-    <el-dialog :visible="signup_button" :show-close="false">
+    <el-dialog
+      :visible="signup_button"
+      :show-close="false"
+      custom-class="signup_dialog"
+    >
       <div id="container">
         <div id="left-part">
           <div id="content-part">
@@ -263,11 +267,49 @@
               <span class="next-button" @click="ToNextPart(4)">Next</span>
             </div>
           </div>
-          <div id="fifth-form"></div>
+          <div id="fifth-form">
+            <div class="header">
+              <p>Having troubles ?</p>
+              <span>Get Help</span>
+            </div>
+            <div class="content-form">
+              <p class="content-title">
+                Please upload two recent photos of your life
+              </p>
+              <p class="content-word">
+                In order to ensure the accuracy of the information, we need you
+                to provide<br />two recent photos to ensure the safety of the
+                dating process.
+              </p>
+              <div class="fifth-form-content">
+                <el-upload
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  list-type="picture-card"
+                  :on-preview="handleImageCardPreview"
+                  :on-remove="handleImageRemove"
+                  :on-exceed="handleError"
+                  :before-upload="beforeImageUpload"
+                  :limit="2"
+                >
+                  <i class="el-icon-plus"></i>
+                </el-upload>
+              </div>
+            </div>
+            <div class="bottom-button">
+              <span class="exit-button" @click="ToLastPart(5)"
+                >Back to last step</span
+              >
+              <span class="next-button" @click="ToNextPart(5)">Next</span>
+            </div>
+          </div>
           <div id="sixth-form"></div>
           <div id="seventh-form"></div>
         </div>
       </div>
+    </el-dialog>
+    <!-- 图片上传dialog -->
+    <el-dialog :visible.sync="ImageDisplay" custom-class="image_dialog">
+      <img :src="ImageUrl" style="max-width:100%" alt="" />
     </el-dialog>
   </div>
 </template>
@@ -281,6 +323,8 @@ export default {
   setup(props, { root }) {
     /* 常量定义 */
     const MoveHeight = ref(-596);
+    const ImageUrl = ref("");
+    const ImageDisplay = ref(false);
     const signList = reactive([
       {
         name: "firstPage",
@@ -401,8 +445,39 @@ export default {
       firstPart.style.transition = "all 0.3s ease";
       firstPart.style.marginTop = move + "px";
     };
+    /* 图片处理函数 */
+    const handleImageRemove = (file, fileList) => {
+      console.log(file, fileList);
+    };
+    const handleImageCardPreview = file => {
+      ImageUrl.value = file.url;
+      ImageDisplay.value = true;
+      console.log(file);
+    };
+    const handleError = () => {
+      root.$message.warning("Please don't upload more than two images!");
+    };
+    const beforeImageUpload = file => {
+      let type = file.type.split("/")[1].toLowerCase();
+      let isLt2M = file.size / 1024 / 1024 < 2;
+      let isAvail = true;
+      if (type !== "jpeg" && type !== "jpg" && type !== "png") {
+        isAvail = false;
+        root.$message.error(
+          "The uploaded picture can only be in JPG / jpeg / PNG format!"
+        );
+        return isAvail;
+      }
+      if (!isLt2M) {
+        root.$message.error("The size of uploaded picture cannot exceed 2MB!");
+        return isLt2M;
+      }
+      return true;
+    };
     return {
       MoveHeight,
+      ImageUrl,
+      ImageDisplay,
       signList,
       signData,
       marks,
@@ -413,7 +488,11 @@ export default {
       CloseSignupDialog,
       MaleButtonStatus,
       ToNextPart,
-      ToLastPart
+      ToLastPart,
+      handleImageRemove,
+      handleImageCardPreview,
+      handleError,
+      beforeImageUpload
     };
   }
 };
@@ -648,6 +727,10 @@ export default {
                 }
               }
             }
+          }
+          .fifth-form-content {
+            padding: 20px 0;
+            margin: 20px 0;
           }
         }
         .bottom-button {

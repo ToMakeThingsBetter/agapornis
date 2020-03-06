@@ -52,6 +52,26 @@ $zl-4: 400;
 /* sign dialog style */
 #signup {
   .el-dialog {
+    &.image_dialog {
+      height: 600px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #333333ab;
+      margin: 0 !important;
+      top: 50vh;
+      left: 50vw;
+      transform: translate(-50%, -50%);
+      .el-dialog__headerbtn .el-dialog__close {
+        color: #909399 !important;
+        outline: 0;
+      }
+      .el-dialog__header {
+        padding: 0;
+      }
+    }
+  }
+  .el-dialog.signup_dialog {
     width: 1100px !important;
     height: 600px;
     margin-top: calc(50vh - 300px) !important;
@@ -119,6 +139,39 @@ $zl-4: 400;
       border-color: $font-yellow;
     }
   }
+  .fifth-form-content {
+    > div {
+      height: 148px !important;
+    }
+    .el-upload--picture-card:hover, .el-upload:focus {
+      border-color: $font-red;
+      color: $font-red;
+    }
+    .el-upload-list__item .el-icon-close-tip {
+      display: none !important;
+    }
+    .el-upload-list--picture-card .el-upload-list__item {
+      margin-bottom: 0;
+    }
+    .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+      max-width: 100%;
+      width: unset;
+      height: unset;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .el-upload-list__item.is-success .el-upload-list__item-status-label {
+      line-height: 25.2px;
+    }
+    .el-upload-list--picture-card .el-upload-list__item-status-label {
+      background-color: $font-red;
+    }
+    .el-progress--circle {
+      display: none !important;
+    }
+  }
 }
 .el-popover.popover {
   padding: 30px;
@@ -173,4 +226,9 @@ $zl-4: 400;
   .el-select-dropdown__item.selected {
     color: $font-red;
   }
+}
+/* 更改全局消息提示style */
+.el-message__content {
+  font-size: 14px;
+  letter-spacing: 1.05px;
 }
